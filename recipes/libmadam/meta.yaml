@@ -1,0 +1,79 @@
+
+{% set name = 'libmadam' %}
+{% set version = '1.0.1' %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://github.com/hpc4cmb/libmadam/releases/download/v{{ version }}/{{ name }}-{{ version }}.tar.bz2
+  sha256: 502837803a0baca413fc9e22f23bb6de4ae501b94f3041c0a6e15000114de833
+
+build:
+  number: 0
+  skip: True # [py<34]
+  skip: True # [win]
+
+requirements:
+  build:
+    - {{ compiler('c') }}
+    - {{ compiler('fortran') }}
+    - {{ mpi }}
+    - python
+    - pip
+    - numpy
+    - make
+    - libblas
+    - liblapack
+    - cfitsio
+    - fftw
+    - mpi4py
+  host:
+    - {{ compiler('c') }}
+    - {{ compiler('fortran') }}
+    - {{ mpi }}
+    - python
+    - pip
+    - numpy
+    - make
+    - libblas
+    - liblapack
+    - cfitsio
+    - fftw
+    - mpi4py
+  run:
+    - {{ mpi }}
+    - python
+    - numpy
+    - libblas
+    - liblapack
+    - cfitsio
+    - fftw
+    - mpi4py
+
+test:
+  source_files:
+    - configure.ac
+    - python
+
+about:
+  home: https://github.com/hpc4cmb/libmadam
+  license: GPL-3.0
+  license_family: GPL
+  license_file: LICENSE.md
+  summary: 'Library version of the Madam CMB mapmaking code'
+  description: |
+    The Madam mapmaking algorithm is discussed in the following research papers:\n
+    E. Keihänen, H. Kurki-Suonio and T. Poutanen:
+    Madam - A Map-making method for CMB experiments,
+    MNRAS 360 (2005) 390, astro-ph/0412517\n
+    E. Keihänen, R. Keskitalo, H. Kurki-Suonio, T. Poutanen, A.-S. Sirviö:
+    Making CMB temperature and polarization maps with Madam,
+    A&A 510 (2010) A57, arXiv:0907.0367
+  dev_url: https://github.com/hpc4cmb/libmadam
+
+extra:
+  recipe-maintainers:
+    - tskisner
+    - keskitalo
